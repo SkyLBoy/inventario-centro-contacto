@@ -1,0 +1,157 @@
+{
+    "users": [
+      {
+        "id": 1,
+        "username": "admin",
+        "email": "admin@empresa.com",
+        "password": "admin123",
+        "role": "admin",
+        "name": "Administrador",
+        "avatar": "",
+        "createdAt": "2024-01-15T10:00:00Z",
+        "isActive": true
+      },
+      {
+        "id": 2,
+        "username": "user1",
+        "email": "user1@empresa.com",
+        "password": "user123",
+        "role": "user",
+        "name": "Usuario Ejemplo",
+        "avatar": "",
+        "createdAt": "2024-01-16T09:30:00Z",
+        "isActive": true
+      }
+    ],
+    "categories": [
+      {
+        "id": 1,
+        "name": "Electrónicos",
+        "description": "Dispositivos electrónicos y tecnológicos",
+        "color": "#3B82F6",
+        "createdAt": "2024-01-15T10:00:00Z",
+        "isActive": true
+      },
+      {
+        "id": 2,
+        "name": "Oficina",
+        "description": "Suministros y equipos de oficina",
+        "color": "#10B981",
+        "createdAt": "2024-01-15T10:05:00Z",
+        "isActive": true
+      },
+      {
+        "id": 3,
+        "name": "Mobiliario",
+        "description": "Muebles y mobiliario en general",
+        "color": "#F59E0B",
+        "createdAt": "2024-01-15T10:10:00Z",
+        "isActive": true
+      }
+    ],
+    "products": [
+      {
+        "id": 1,
+        "name": "Laptop Dell Inspiron 15",
+        "description": "Laptop para trabajo con procesador Intel i5",
+        "code": "DELL-INS-001",
+        "categoryId": 1,
+        "quantity": 5,
+        "minStock": 2,
+        "price": 15000.00,
+        "location": "Almacén A - Estante 1",
+        "supplier": "Dell México",
+        "status": "active",
+        "createdAt": "2024-01-15T11:00:00Z",
+        "updatedAt": "2024-01-20T14:30:00Z"
+      },
+      {
+        "id": 2,
+        "name": "Monitor Samsung 24''",
+        "description": "Monitor LED 24 pulgadas Full HD",
+        "code": "SAM-MON-001",
+        "categoryId": 1,
+        "quantity": 8,
+        "minStock": 3,
+        "price": 3500.00,
+        "location": "Almacén A - Estante 2",
+        "supplier": "Samsung",
+        "status": "active",
+        "createdAt": "2024-01-15T11:15:00Z",
+        "updatedAt": "2024-01-18T09:45:00Z"
+      },
+      {
+        "id": 3,
+        "name": "Silla Ergonómica",
+        "description": "Silla de oficina ergonómica con soporte lumbar",
+        "code": "MOB-SIL-001",
+        "categoryId": 3,
+        "quantity": 12,
+        "minStock": 5,
+        "price": 2800.00,
+        "location": "Almacén B - Área 1",
+        "supplier": "Muebles Modernos",
+        "status": "active",
+        "createdAt": "2024-01-16T08:00:00Z",
+        "updatedAt": "2024-01-19T16:20:00Z"
+      }
+    ],
+    "movements": [
+      {
+        "id": 1,
+        "productId": 1,
+        "type": "entrada",
+        "quantity": 2,
+        "reason": "Compra nueva",
+        "userId": 1,
+        "createdAt": "2024-01-20T14:30:00Z",
+        "notes": "Compra para área de desarrollo"
+      },
+      {
+        "id": 2,
+        "productId": 2,
+        "type": "salida",
+        "quantity": 1,
+        "reason": "Asignación",
+        "userId": 2,
+        "createdAt": "2024-01-21T09:15:00Z",
+        "notes": "Asignado a empleado nuevo"
+      },
+      {
+        "id": 3,
+        "productId": 3,
+        "type": "entrada",
+        "quantity": 5,
+        "reason": "Compra nueva",
+        "userId": 1,
+        "createdAt": "2024-01-19T16:20:00Z",
+        "notes": "Reposición de mobiliario"
+      }
+    ],
+    "reports": [
+      {
+        "id": 1,
+        "name": "Inventario General",
+        "type": "inventory",
+        "createdAt": "2024-01-20T10:00:00Z",
+        "userId": 1,
+        "status": "completed",
+        "data": {
+          "totalProducts": 3,
+          "totalValue": 63600.00,
+          "lowStockItems": 0
+        }
+      }
+    ],
+    "settings": {
+      "companyName": "Centro de Contacto",
+      "currency": "MXN",
+      "timezone": "America/Hermosillo",
+      "language": "es",
+      "notifications": {
+        "lowStock": true,
+        "newMovements": true,
+        "reports": false
+      }
+    }
+  }

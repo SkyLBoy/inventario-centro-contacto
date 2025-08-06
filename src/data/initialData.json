@@ -1,0 +1,310 @@
+{
+    "users": [
+      {
+        "id": 1,
+        "username": "admin",
+        "password": "admin123",
+        "email": "admin@inventario.com",
+        "role": "admin",
+        "name": "Administrador Principal",
+        "createdAt": "2024-01-15T10:00:00.000Z",
+        "isActive": true
+      },
+      {
+        "id": 2,
+        "username": "editor",
+        "password": "editor123",
+        "email": "editor@inventario.com",
+        "role": "editor",
+        "name": "Editor de Inventario",
+        "createdAt": "2024-01-15T10:30:00.000Z",
+        "isActive": true
+      },
+      {
+        "id": 3,
+        "username": "viewer",
+        "password": "viewer123",
+        "email": "viewer@inventario.com",
+        "role": "viewer",
+        "name": "Visualizador",
+        "createdAt": "2024-01-15T11:00:00.000Z",
+        "isActive": true
+      }
+    ],
+    "categories": [
+      {
+        "id": 1,
+        "name": "Electrónicos",
+        "description": "Dispositivos electrónicos y accesorios",
+        "createdAt": "2024-01-15T12:00:00.000Z"
+      },
+      {
+        "id": 2,
+        "name": "Oficina",
+        "description": "Artículos de oficina y papelería",
+        "createdAt": "2024-01-15T12:15:00.000Z"
+      },
+      {
+        "id": 3,
+        "name": "Herramientas",
+        "description": "Herramientas y equipos de trabajo",
+        "createdAt": "2024-01-15T12:30:00.000Z"
+      },
+      {
+        "id": 4,
+        "name": "Mobiliario",
+        "description": "Muebles y mobiliario de oficina",
+        "createdAt": "2024-01-15T12:45:00.000Z"
+      },
+      {
+        "id": 5,
+        "name": "Software",
+        "description": "Licencias y software",
+        "createdAt": "2024-01-15T13:00:00.000Z"
+      }
+    ],
+    "products": [
+      {
+        "id": 1,
+        "name": "Laptop Dell Inspiron 15",
+        "code": "DELL001",
+        "description": "Laptop Dell Inspiron 15 - Intel i5, 8GB RAM, 256GB SSD",
+        "categoryId": 1,
+        "quantity": 12,
+        "minStock": 5,
+        "price": 15000.00,
+        "createdAt": "2024-01-15T14:00:00.000Z",
+        "updatedAt": "2024-01-15T14:00:00.000Z"
+      },
+      {
+        "id": 2,
+        "name": "Mouse Inalámbrico Logitech",
+        "code": "MOU001",
+        "description": "Mouse inalámbrico ergonómico con receptor USB",
+        "categoryId": 1,
+        "quantity": 25,
+        "minStock": 10,
+        "price": 350.00,
+        "createdAt": "2024-01-15T14:15:00.000Z",
+        "updatedAt": "2024-01-15T14:15:00.000Z"
+      },
+      {
+        "id": 3,
+        "name": "Teclado Mecánico RGB",
+        "code": "TEC001",
+        "description": "Teclado mecánico con retroiluminación RGB",
+        "categoryId": 1,
+        "quantity": 18,
+        "minStock": 8,
+        "price": 850.00,
+        "createdAt": "2024-01-15T14:30:00.000Z",
+        "updatedAt": "2024-01-15T14:30:00.000Z"
+      },
+      {
+        "id": 4,
+        "name": "Monitor Samsung 24'",
+        "code": "MON001",
+        "description": "Monitor LED 24 pulgadas Full HD",
+        "categoryId": 1,
+        "quantity": 8,
+        "minStock": 3,
+        "price": 3200.00,
+        "createdAt": "2024-01-15T14:45:00.000Z",
+        "updatedAt": "2024-01-15T14:45:00.000Z"
+      },
+      {
+        "id": 5,
+        "name": "Taladro Eléctrico Bosch",
+        "code": "TAL001",
+        "description": "Taladro eléctrico 650W con kit de brocas",
+        "categoryId": 3,
+        "quantity": 6,
+        "minStock": 2,
+        "price": 1250.00,
+        "createdAt": "2024-01-15T15:00:00.000Z",
+        "updatedAt": "2024-01-15T15:00:00.000Z"
+      },
+      {
+        "id": 6,
+        "name": "Silla Ergonómica",
+        "code": "SIL001",
+        "description": "Silla de oficina ergonómica con soporte lumbar",
+        "categoryId": 4,
+        "quantity": 15,
+        "minStock": 5,
+        "price": 2800.00,
+        "createdAt": "2024-01-15T15:15:00.000Z",
+        "updatedAt": "2024-01-15T15:15:00.000Z"
+      },
+      {
+        "id": 7,
+        "name": "Escritorio Ejecutivo",
+        "code": "ESC001",
+        "description": "Escritorio ejecutivo L de madera",
+        "categoryId": 4,
+        "quantity": 4,
+        "minStock": 2,
+        "price": 4500.00,
+        "createdAt": "2024-01-15T15:30:00.000Z",
+        "updatedAt": "2024-01-15T15:30:00.000Z"
+      },
+      {
+        "id": 8,
+        "name": "Papel Bond Carta",
+        "code": "PAP001",
+        "description": "Resma de papel bond carta 500 hojas",
+        "categoryId": 2,
+        "quantity": 45,
+        "minStock": 20,
+        "price": 85.00,
+        "createdAt": "2024-01-15T15:45:00.000Z",
+        "updatedAt": "2024-01-15T15:45:00.000Z"
+      },
+      {
+        "id": 9,
+        "name": "Licencia Office 365",
+        "code": "OFF001",
+        "description": "Licencia anual Microsoft Office 365",
+        "categoryId": 5,
+        "quantity": 10,
+        "minStock": 5,
+        "price": 1800.00,
+        "createdAt": "2024-01-15T16:00:00.000Z",
+        "updatedAt": "2024-01-15T16:00:00.000Z"
+      },
+      {
+        "id": 10,
+        "name": "Impresora HP LaserJet",
+        "code": "IMP001",
+        "description": "Impresora láser monocromática HP",
+        "categoryId": 1,
+        "quantity": 3,
+        "minStock": 1,
+        "price": 4200.00,
+        "createdAt": "2024-01-15T16:15:00.000Z",
+        "updatedAt": "2024-01-15T16:15:00.000Z"
+      }
+    ],
+    "movements": [
+      {
+        "id": 1,
+        "productId": 1,
+        "type": "entrada",
+        "quantity": 12,
+        "reason": "Stock inicial",
+        "notes": "Inventario inicial del sistema",
+        "userId": 1,
+        "createdAt": "2024-01-15T14:00:00.000Z"
+      },
+      {
+        "id": 2,
+        "productId": 2,
+        "type": "entrada",
+        "quantity": 25,
+        "reason": "Stock inicial",
+        "notes": "Inventario inicial del sistema",
+        "userId": 1,
+        "createdAt": "2024-01-15T14:15:00.000Z"
+      },
+      {
+        "id": 3,
+        "productId": 3,
+        "type": "entrada",
+        "quantity": 18,
+        "reason": "Stock inicial",
+        "notes": "Inventario inicial del sistema",
+        "userId": 1,
+        "createdAt": "2024-01-15T14:30:00.000Z"
+      },
+      {
+        "id": 4,
+        "productId": 4,
+        "type": "entrada",
+        "quantity": 8,
+        "reason": "Stock inicial",
+        "notes": "Inventario inicial del sistema",
+        "userId": 1,
+        "createdAt": "2024-01-15T14:45:00.000Z"
+      },
+      {
+        "id": 5,
+        "productId": 5,
+        "type": "entrada",
+        "quantity": 6,
+        "reason": "Stock inicial",
+        "notes": "Inventario inicial del sistema",
+        "userId": 1,
+        "createdAt": "2024-01-15T15:00:00.000Z"
+      },
+      {
+        "id": 6,
+        "productId": 6,
+        "type": "entrada",
+        "quantity": 15,
+        "reason": "Stock inicial",
+        "notes": "Inventario inicial del sistema",
+        "userId": 1,
+        "createdAt": "2024-01-15T15:15:00.000Z"
+      },
+      {
+        "id": 7,
+        "productId": 7,
+        "type": "entrada",
+        "quantity": 4,
+        "reason": "Stock inicial",
+        "notes": "Inventario inicial del sistema",
+        "userId": 1,
+        "createdAt": "2024-01-15T15:30:00.000Z"
+      },
+      {
+        "id": 8,
+        "productId": 8,
+        "type": "entrada",
+        "quantity": 45,
+        "reason": "Stock inicial",
+        "notes": "Inventario inicial del sistema",
+        "userId": 1,
+        "createdAt": "2024-01-15T15:45:00.000Z"
+      },
+      {
+        "id": 9,
+        "productId": 9,
+        "type": "entrada",
+        "quantity": 10,
+        "reason": "Stock inicial",
+        "notes": "Inventario inicial del sistema",
+        "userId": 1,
+        "createdAt": "2024-01-15T16:00:00.000Z"
+      },
+      {
+        "id": 10,
+        "productId": 10,
+        "type": "entrada",
+        "quantity": 3,
+        "reason": "Stock inicial",
+        "notes": "Inventario inicial del sistema",
+        "userId": 1,
+        "createdAt": "2024-01-15T16:15:00.000Z"
+      },
+      {
+        "id": 11,
+        "productId": 1,
+        "type": "salida",
+        "quantity": 2,
+        "reason": "Asignación",
+        "notes": "Asignado a departamento de ventas",
+        "userId": 1,
+        "createdAt": "2024-01-16T09:00:00.000Z"
+      },
+      {
+        "id": 12,
+        "productId": 2,
+        "type": "salida",
+        "quantity": 5,
+        "reason": "Asignación",
+        "notes": "Equipamiento sala de juntas",
+        "userId": 2,
+        "createdAt": "2024-01-16T10:30:00.000Z"
+      }
+    ]
+  }
