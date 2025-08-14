@@ -16,8 +16,8 @@ export const QUICK_ACTIONS = [
   {
     title: 'Registrar movimiento',
     desc: 'Agregar nuevo movimiento',
-    icon: '🔄', // asegúrate que lucide-react lo reconozca
-    color: '#F97316', // un naranja o cualquier color que quieras
+    icon: '🔄',
+    color: '#F97316',
     route: '/movimientos/nuevo'
   },
   { 
@@ -40,5 +40,12 @@ export const QUICK_ACTIONS = [
     icon: '👥', 
     color: '#EF4444',
     route: '/usuarios'
+  },
+  { 
+    title: 'Gestionar Categorías', 
+    desc: 'Crear y administrar categorías', 
+    icon: '📁', 
+    color: '#6366F1',
+    route: '/categorias'
   }
 ];
