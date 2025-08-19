@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ApiService } from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
+import { useRecentActivities, ACTIVITY_TYPES } from '../../hooks/useRecentActivities';
 import Button from '../../components/common/Button';
 
 // Icono de flecha hacia atrás
@@ -22,6 +23,7 @@ const ArrowLeftIcon = () => (
 
 const ProductsPage = () => {
   const { user, canEdit } = useAuth();
+  const { logProductActivity, logSystemActivity } = useRecentActivities();
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -47,7 +49,13 @@ const ProductsPage = () => {
 
   useEffect(() => {
     loadData();
-  }, []);
+    // Registrar visita a la página
+    logSystemActivity(
+      ACTIVITY_TYPES.PAGE_VISITED,
+      'Página de Productos',
+      user?.name
+    );
+  }, [user?.name, logSystemActivity]);
 
   // Función para regresar
   const handleGoBack = () => {
@@ -170,9 +178,30 @@ const ProductsPage = () => {
       console.log('Guardando producto:', productData);
 
       if (selectedProduct) {
+        // Actualizar producto existente
         await ApiService.products.update(selectedProduct.id, productData);
+        
+        // Registrar actividad de edición
+        const categoryName = categories.find(c => c.id === productData.categoryId)?.name || 'Sin categoría';
+        logProductActivity(
+          ACTIVITY_TYPES.PRODUCT_UPDATED,
+          productData.name,
+          user?.name,
+          `Código: ${productData.code}, Categoría: ${categoryName}, Stock: ${productData.quantity}`
+        );
+        
       } else {
+        // Crear nuevo producto
         await ApiService.products.create(productData);
+        
+        // Registrar actividad de creación
+        const categoryName = categories.find(c => c.id === productData.categoryId)?.name || 'Sin categoría';
+        logProductActivity(
+          ACTIVITY_TYPES.PRODUCT_CREATED,
+          productData.name,
+          user?.name,
+          `Código: ${productData.code}, Categoría: ${categoryName}, Stock inicial: ${productData.quantity}`
+        );
       }
       
       await loadData(); // Recargar datos
@@ -191,8 +220,16 @@ const ProductsPage = () => {
     
     setSaving(true);
     try {
-      // Corregido: usar ApiService.products.delete
       await ApiService.products.delete(selectedProduct.id);
+      
+      // Registrar actividad de eliminación
+      logProductActivity(
+        ACTIVITY_TYPES.PRODUCT_DELETED,
+        selectedProduct.name,
+        user?.name,
+        `Código: ${selectedProduct.code || 'Sin código'}`
+      );
+      
       await loadData(); // Recargar datos
       setDeleteModalOpen(false);
       setSelectedProduct(null);
@@ -202,6 +239,34 @@ const ProductsPage = () => {
       setError(err.message || 'Error al eliminar el producto');
     } finally {
       setSaving(false);
+    }
+  };
+
+  // Función para actualizar stock (si tienes esta funcionalidad)
+  const handleStockUpdate = async (productId, newStock, movementType = 'Ajuste manual') => {
+    try {
+      const product = products.find(p => p.id === productId);
+      if (!product) return;
+
+      const oldStock = product.quantity || product.stock || 0;
+      
+      // Aquí iría la llamada a la API para actualizar el stock
+      // await ApiService.products.updateStock(productId, { quantity: newStock });
+      
+      // Registrar la actividad de actualización de stock
+      logProductActivity(
+        ACTIVITY_TYPES.STOCK_UPDATED,
+        product.name,
+        user?.name,
+        `Stock: ${oldStock} → ${newStock} (${movementType})`
+      );
+      
+      // Recargar datos
+      await loadData();
+      
+    } catch (error) {
+      console.error('Error updating stock:', error);
+      setError('Error al actualizar el stock');
     }
   };
 
@@ -301,7 +366,7 @@ const ProductsPage = () => {
   return (
     <div style={{ padding: '24px', maxWidth: '1200px', margin: '0 auto' }}>
       {/* Botón de regresar */}
-            <div style={{ 
+      <div style={{ 
         position: 'fixed',
         top: '20px',
         left: '20px',

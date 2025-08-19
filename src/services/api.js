@@ -262,7 +262,7 @@ export const usersAPI = {
   }
 };
 
-// API para autenticación - ACTUALIZADA CON LOGOUT
+// API para autenticación - ACTUALIZADA CON LOGOUT Y VALIDACIÓN DE USUARIO ACTIVO
 export const authAPI = {
   login: async ({ username, password }) => {
     try {
@@ -270,14 +270,45 @@ export const authAPI = {
         return createResponse({ message: 'Username y password son requeridos' }, 400);
       }
 
-      const user = await databaseService.authenticateUser(username, password);
+      // ✅ MÉTODO MEJORADO: Obtener usuario y verificar manualmente
+      let user;
+      
+      try {
+        // Primero intentamos con el método original
+        user = await databaseService.authenticateUser(username, password);
+        
+        // Si el método original no verifica isActive, lo verificamos nosotros
+        if (user && !user.isActive) {
+          return createResponse({ 
+            message: 'Tu cuenta ha sido desactivada. Contacta al administrador.' 
+          }, 403);
+        }
+      } catch (originalError) {
+        // Si el método original falla, hacemos verificación manual
+        console.log('Método authenticateUser falló, verificando manualmente...');
+        
+        // Obtener todos los usuarios y buscar manualmente
+        const allUsers = await databaseService.getAll('users');
+        user = allUsers.find(u => 
+          (u.username === username || u.email === username) && 
+          u.password === password &&
+          u.isActive === true  // ✅ Solo usuarios activos
+        );
+      }
 
       if (!user) {
-        return createResponse({ message: 'Credenciales inválidas' }, 401);
+        return createResponse({ message: 'Credenciales inválidas o cuenta desactivada' }, 401);
+      }
+
+      // ✅ DOBLE VERIFICACIÓN: Asegurarse que el usuario esté activo
+      if (user.isActive === false) {
+        return createResponse({ 
+          message: 'Tu cuenta ha sido desactivada. Contacta al administrador.' 
+        }, 403);
       }
 
       const { password: pwd, ...safeUser } = user;
-      // Puedes generar un token falso para simular autenticación
+      // Generar token
       const token = btoa(JSON.stringify({ userId: user.id, timestamp: Date.now() }));
 
       return createResponse({
@@ -286,6 +317,7 @@ export const authAPI = {
         expiresIn: '24h'
       }, 200);
     } catch (error) {
+      console.error('Error en login:', error);
       return createResponse({ message: error.message }, 500);
     }
   },
@@ -299,6 +331,7 @@ export const authAPI = {
     }
   }
 };
+
 // API para dashboard
 export const dashboardAPI = {
   getStats: async () => {
@@ -389,8 +422,120 @@ export const databaseUtils = {
   }
 };
 
-// Export por defecto con todas las APIs - ACTUALIZADO CON initializeData
+// ✅ FUNCIONES DE COMPATIBILIDAD - ESTO SOLUCIONA EL ERROR
+// Estas funciones permiten usar ApiService.deleteUser() en lugar de ApiService.users.delete()
+
+// Funciones para USUARIOS (soluciona tu error)
+export const deleteUser = async (id) => {
+  return await usersAPI.delete(id);
+};
+
+export const createUser = async (userData) => {
+  return await usersAPI.create(userData);
+};
+
+export const updateUser = async (id, userData) => {
+  return await usersAPI.update(id, userData);
+};
+
+export const getUser = async (id) => {
+  return await usersAPI.getById(id);
+};
+
+export const getUsers = async () => {
+  return await usersAPI.getAll();
+};
+
+// ✅ NUEVA FUNCIÓN: Toggle User Status (activar/desactivar usuario)
+export const toggleUserStatus = async (id) => {
+  try {
+    console.log('🔍 Iniciando toggleUserStatus para usuario ID:', id);
+    
+    // Primero obtenemos el usuario actual
+    const userResponse = await usersAPI.getById(id);
+    console.log('📋 Usuario actual obtenido:', userResponse);
+    
+    if (userResponse.status !== 200) {
+      return createResponse({ message: 'Usuario no encontrado' }, 404);
+    }
+    
+    const currentUser = userResponse.data;
+    console.log('👤 Estado actual del usuario:', {
+      id: currentUser.id,
+      username: currentUser.username,
+      isActive: currentUser.isActive,
+      tipo: typeof currentUser.isActive
+    });
+    
+    // Cambiamos el estado isActive
+    const newStatus = !currentUser.isActive;
+    console.log('🔄 Nuevo estado que se aplicará:', newStatus, 'tipo:', typeof newStatus);
+    
+    // Actualizamos el usuario con el nuevo estado
+    const updateResult = await usersAPI.update(id, { isActive: newStatus });
+    console.log('💾 Resultado de la actualización:', updateResult);
+    
+    // Verificamos que realmente se guardó
+    const verificationResponse = await usersAPI.getById(id);
+    console.log('✅ Verificación post-actualización:', {
+      id: verificationResponse.data.id,
+      username: verificationResponse.data.username,
+      isActive: verificationResponse.data.isActive,
+      tipo: typeof verificationResponse.data.isActive
+    });
+    
+    return updateResult;
+  } catch (error) {
+    console.error('❌ Error en toggleUserStatus:', error);
+    return createResponse({ message: error.message }, 500);
+  }
+};
+
+// Funciones para PRODUCTOS
+export const deleteProduct = async (id) => {
+  return await productsAPI.delete(id);
+};
+
+export const createProduct = async (productData) => {
+  return await productsAPI.create(productData);
+};
+
+export const updateProduct = async (id, productData) => {
+  return await productsAPI.update(id, productData);
+};
+
+export const getProduct = async (id) => {
+  return await productsAPI.getById(id);
+};
+
+export const getProducts = async () => {
+  return await productsAPI.getAll();
+};
+
+// Funciones para CATEGORÍAS
+export const deleteCategory = async (id) => {
+  return await categoriesAPI.delete(id);
+};
+
+export const createCategory = async (categoryData) => {
+  return await categoriesAPI.create(categoryData);
+};
+
+export const updateCategory = async (id, categoryData) => {
+  return await categoriesAPI.update(id, categoryData);
+};
+
+export const getCategory = async (id) => {
+  return await categoriesAPI.getById(id);
+};
+
+export const getCategories = async () => {
+  return await categoriesAPI.getAll();
+};
+
+// Export por defecto con todas las APIs y funciones de compatibilidad
 const api = {
+  // APIs organizadas (forma recomendada)
   products: productsAPI,
   categories: categoriesAPI,
   movements: movementsAPI,
@@ -400,7 +545,30 @@ const api = {
   reports: reportsAPI,
   database: databaseUtils,
   
-  // NUEVA FUNCIÓN initializeData
+  // ✅ FUNCIONES DE COMPATIBILIDAD AGREGADAS AL OBJETO PRINCIPAL
+  // Usuarios
+  deleteUser,
+  createUser,
+  updateUser,
+  getUser,
+  getUsers,
+  toggleUserStatus, // ✅ Nueva función agregada
+  
+  // Productos  
+  deleteProduct,
+  createProduct,
+  updateProduct,
+  getProduct,
+  getProducts,
+  
+  // Categorías
+  deleteCategory,
+  createCategory,
+  updateCategory,
+  getCategory,
+  getCategories,
+  
+  // Función para inicializar datos
   initializeData: async () => {
     try {
       // Verificar si ya hay datos inicializados
@@ -419,5 +587,4 @@ const api = {
 };
 
 export default api;
-
 export const ApiService = api;

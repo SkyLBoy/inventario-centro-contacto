@@ -18,7 +18,9 @@ const RecentActivity = ({ activities, onViewAll }) => {
             <div style={styles.activityDot}></div>
             <div style={styles.activityContent}>
               <p style={styles.activityAction}>{activity.action}</p>
-              <p style={styles.activityItemName}>{activity.item}</p>
+              <p style={styles.activityItemName}>
+                {activity.item} {activity.user ? `- ${activity.user}` : ''}
+              </p>
             </div>
             <span style={styles.activityTime}>{activity.time}</span>
           </div>

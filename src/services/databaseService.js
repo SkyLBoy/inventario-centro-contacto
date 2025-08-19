@@ -4,6 +4,10 @@ class DatabaseService {
   constructor() {
     this.data = this.loadFromLocalStorage() || databaseData;
     this.saveToLocalStorage();
+    if (!this.data.activities){
+      this.data.activities = [];
+    }
+    this.saveToLocalStorage();
   }
 
   // Métodos de persistencia local
@@ -231,6 +235,32 @@ class DatabaseService {
       return false;
     }
   }
+  // MÉTODOS ESPECÍFICOS PARA ACTIVIDADES
+async getActivities() {
+  // Usa el genérico y ordénalas descendente por fecha de creación
+  const list = await this.getAll('activities');
+  return [...list].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+}
+
+async createActivity({ action, item, user }) {
+  // Guarda con el mismo shape que ya usa tu UI (action, item, time)
+  const activity = await this.create('activities', {
+    action,
+    item,
+    user, // nombre completo del usuario
+    time: new Date().toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' })
+    // createdAt/updatedAt los agrega this.create()
+  });
+
+  // Limitar a las últimas 20
+  this.data.activities = [...this.data.activities]
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+    .slice(0, 20);
+
+  this.saveToLocalStorage();
+  return activity;
+}
+
 }
 
 // Crear instancia singleton

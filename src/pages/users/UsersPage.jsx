@@ -507,6 +507,7 @@ const UsersPage = ({ onGoHome }) => {
                   padding: '8px 16px',
                   backgroundColor: '#f3f4f6',
                   border: 'none',
+                  color: 'black',
                   borderRadius: '6px',
                   cursor: 'pointer',
                   fontSize: '14px',

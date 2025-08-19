@@ -143,6 +143,8 @@
         }
       }
     ],
+    "activities":[],
+    
     "settings": {
       "companyName": "Centro de Contacto",
       "currency": "MXN",
