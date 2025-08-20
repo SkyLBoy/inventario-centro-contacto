@@ -2,25 +2,37 @@
 import { useState, useEffect, useCallback } from 'react';
 
 export const ACTIVITY_TYPES = {
+  // Actividades de usuarios
   USER_CREATED: 'Usuario creado',
   USER_UPDATED: 'Usuario actualizado', 
   USER_DELETED: 'Usuario eliminado',
+  
+  // Actividades de productos
   PRODUCT_CREATED: 'Producto agregado',
   PRODUCT_UPDATED: 'Producto editado',
   PRODUCT_DELETED: 'Producto eliminado',
   STOCK_UPDATED: 'Stock actualizado',
   PRODUCT_MOVED: 'Producto movido',
+  
+  // Actividades de categorías
   CATEGORY_CREATED: 'Categoría creada',
   CATEGORY_UPDATED: 'Categoría editada',
   CATEGORY_DELETED: 'Categoría eliminada',
+  
+  // Actividades de movimientos
   MOVEMENT_CREATED: 'Movimiento registrado',
   MOVEMENT_UPDATED: 'Movimiento actualizado',
   MOVEMENT_DELETED: 'Movimiento eliminado',
-  DASHBOARD_ACCESSED: 'Dashboard accedido',
-  PAGE_VISITED: 'Página visitada',
-  QUICK_ACTION: 'Acción rápida',
+  
+  // Actividades del sistema (solo acciones importantes)
+  QUICK_ACTION_STOCK_ALERT: 'Alerta de stock verificada',
+  QUICK_ACTION_BACKUP_CREATED: 'Respaldo creado',
+  QUICK_ACTION_REPORT_GENERATED: 'Reporte generado',
+  QUICK_ACTION_SYSTEM_MAINTENANCE: 'Mantenimiento realizado',
   LOGIN: 'Inicio de sesión',
-  LOGOUT: 'Cierre de sesión'
+  LOGOUT: 'Cierre de sesión',
+  BULK_IMPORT: 'Importación masiva',
+  BULK_EXPORT: 'Exportación masiva'
 };
 
 const STORAGE_KEY = 'recentActivities';
@@ -152,11 +164,10 @@ export const useRecentActivities = () => {
 
   const logSystemActivity = useCallback((type, item, actorName, details = null) => {
     const icons = {
-      [ACTIVITY_TYPES.DASHBOARD_ACCESSED]: '🏠',
-      [ACTIVITY_TYPES.PAGE_VISITED]: '🔗',
-      [ACTIVITY_TYPES.QUICK_ACTION]: '⚡',
+      [ACTIVITY_TYPES.QUICK_ACTION_STOCK_ALERT]: '⚠️',
+      [ACTIVITY_TYPES.QUICK_ACTION_BACKUP_CREATED]: '💾',
       [ACTIVITY_TYPES.LOGIN]: '🔑',
-      [ACTIVITY_TYPES.LOGOUT]: '🚪'
+      [ACTIVITY_TYPES.LOGOUT]: '🚪',
     };
 
     return addActivity({

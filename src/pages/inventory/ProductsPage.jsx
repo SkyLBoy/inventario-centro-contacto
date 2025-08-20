@@ -23,7 +23,7 @@ const ArrowLeftIcon = () => (
 
 const ProductsPage = () => {
   const { user, canEdit } = useAuth();
-  const { logProductActivity, logSystemActivity } = useRecentActivities();
+  const { logProductActivity } = useRecentActivities(); // Removimos logSystemActivity
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -49,13 +49,8 @@ const ProductsPage = () => {
 
   useEffect(() => {
     loadData();
-    // Registrar visita a la página
-    logSystemActivity(
-      ACTIVITY_TYPES.PAGE_VISITED,
-      'Página de Productos',
-      user?.name
-    );
-  }, [user?.name, logSystemActivity]);
+    // REMOVIDO: Ya no registramos la visita a la página
+  }, []);
 
   // Función para regresar
   const handleGoBack = () => {
@@ -242,33 +237,6 @@ const ProductsPage = () => {
     }
   };
 
-  // Función para actualizar stock (si tienes esta funcionalidad)
-  const handleStockUpdate = async (productId, newStock, movementType = 'Ajuste manual') => {
-    try {
-      const product = products.find(p => p.id === productId);
-      if (!product) return;
-
-      const oldStock = product.quantity || product.stock || 0;
-      
-      // Aquí iría la llamada a la API para actualizar el stock
-      // await ApiService.products.updateStock(productId, { quantity: newStock });
-      
-      // Registrar la actividad de actualización de stock
-      logProductActivity(
-        ACTIVITY_TYPES.STOCK_UPDATED,
-        product.name,
-        user?.name,
-        `Stock: ${oldStock} → ${newStock} (${movementType})`
-      );
-      
-      // Recargar datos
-      await loadData();
-      
-    } catch (error) {
-      console.error('Error updating stock:', error);
-      setError('Error al actualizar el stock');
-    }
-  };
 
   // Filtrar productos
   const filteredProducts = products.filter(product => {

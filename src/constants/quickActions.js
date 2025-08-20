@@ -47,5 +47,13 @@ export const QUICK_ACTIONS = [
     icon: '📁', 
     color: '#6366F1',
     route: '/categorias'
+  },
+  {
+    id: 'backup',
+    type: 'backup', 
+    title: 'Crear Respaldo',
+    desc: 'Generar respaldo de los datos del sistema',
+    icon: '💾',
+    color: '#3b82f6'
   }
 ];

@@ -268,7 +268,7 @@ const DashboardPage = () => {
   const location = useLocation();
   
   // Custom hooks
-  const { stats, updateStats } = useDashboardStats();
+  const { stats } = useDashboardStats();
   const { logUserActivity, logSystemActivity } = useRecentActivities();
 
   // Actualizar reloj cada minuto
@@ -279,14 +279,6 @@ const DashboardPage = () => {
     return () => clearInterval(timer);
   }, []);
 
-  // Registrar acceso al dashboard
-  useEffect(() => {
-    logSystemActivity(
-      ACTIVITY_TYPES.DASHBOARD_ACCESSED,
-      'Panel Principal',
-      user?.name
-    );
-  }, [user?.name, logSystemActivity]);
 
   const handleGoBack = () => {
     navigate('/');
